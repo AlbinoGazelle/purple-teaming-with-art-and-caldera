@@ -99,12 +99,12 @@ run_command "apt-get install -y sysmonforlinux" "Failed to install SysmonForLinu
 
 # Move syslog configuration file
 log_message "$BLUE" "Configuring rsyslog to only log Process Creation events"
-run_command "cp ~/purple-teaming-with-art-and-caldera/setup/client01/01-sysmon.conf /etc/rsyslog.d/01-sysmon.conf" "Failed to move rsyslog configuration file"
+run_as_user "cp ~/purple-teaming-with-art-and-caldera/setup/client01/01-sysmon.conf /etc/rsyslog.d/01-sysmon.conf" "Failed to move rsyslog configuration file"
 run_command "systemctl restart rsyslog.service" "Failed to start syslog service"
 
 # Configure Sysmon
 log_message "$BLUE" "Configuring Sysmon"
-run_command "sysmon -i ~/purple-teaming-with-art-and-caldera/setup/client01/sysmon_config.xml" "Failed to install sysmon configuration file"
+run_as_user "sysmon -i ~/purple-teaming-with-art-and-caldera/setup/client01/sysmon_config.xml" "Failed to install sysmon configuration file"
 
 # Azure Arc onboarding (if Service Principal ID and Secret are provided)
 if [ -n "${ServicePrincipalId:-}" ] && [ -n "${ServicePrincipalClientSecret:-}" ]; then
