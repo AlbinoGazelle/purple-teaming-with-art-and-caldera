@@ -91,6 +91,9 @@ run_command "apt-get install -y powershell" "Failed to install PowerShell"
 
 # Download and install Sysmon
 log_message "$BLUE" "Downloading and installing Sysmon"
+run_command "wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb" "Failed to download Microsoft packages. Do we have internet?"
+run_command "dpkg -i packages-microsoft-prod.deb" "Failed to install Microsoft package"
+run_command "apt-get update" "Failed to update packages after adding Microsoft"
 run_command "apt-get install sysinternalsebpf" "Failed to install eBPF"
 run_command "apt-get install sysmonforlinux" "Failed to install SysmonForLinux"
 
