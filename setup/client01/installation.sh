@@ -100,7 +100,8 @@ run_command "apt-get install -y sysmonforlinux" "Failed to install SysmonForLinu
 # Move syslog configuration file
 # TODO: Fix this... not sure why bash is saying the file doesn't exist. Use Claude.
 log_message "$BLUE" "Configuring rsyslog to only log Process Creation events"
-run_command "cat ~/purple-teaming-with-art-and-caldera/setup/client01/01-sysmon.conf >> /etc/rsyslog.d/01-sysmon.conf" "Failed to copy rsyslog configuration file"
+run_as_user "cp ~/purple-teaming-with-art-and-caldera/setup/client01/01-sysmon.conf /tmp" "Failed to copy rsyslog configuration file"
+run_command "cp /tmp/01-sysmon.conf /etc/rsyslog.d/" "Failed to copy rsyslog file from temp directory"
 run_command "systemctl restart rsyslog.service" "Failed to start syslog service"
 
 # Configure Sysmon
