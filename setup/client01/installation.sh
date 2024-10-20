@@ -95,17 +95,17 @@ run_command "apt-get install -y powershell" "Failed to install PowerShell"
 
 # Download and install Sysmon
 log_message "$BLUE" "Downloading and installing Sysmon"
-run_command "apt-get install sysinternalsebpf"
-run_command "apt-get install sysmonforlinux"
+run_command "apt-get install sysinternalsebpf" "Failed to install eBPF"
+run_command "apt-get install sysmonforlinux" "Failed to install SysmonForLinux"
 
 # Move syslog configuration file
 log_message "$BLUE" "Configuring rsyslog to only log Process Creation events"
-run_command "cp ~/purple-teaming-with-art-and-caldera/setup/client01/01-sysmon.conf"
-run_command "systemctl restart rsyslog.service"
+run_command "cp ~/purple-teaming-with-art-and-caldera/setup/client01/01-sysmon.conf /etc/rsyslog.d/01-sysmon.conf" "Failed to move rsyslog configuration file"
+run_command "systemctl restart rsyslog.service" "Failed to start syslog service"
 
 # Configure Sysmon
 log_message "$BLUE" "Configuring Sysmon"
-run_command "sysmon -i ~/purple-teaming-with-art-and-caldera/setup/client01/sysmon_config.xml"
+run_command "sysmon -i ~/purple-teaming-with-art-and-caldera/setup/client01/sysmon_config.xml" "Failed to install sysmon configuration file"
 
 # Azure Arc onboarding (if Service Principal ID and Secret are provided)
 if [ -n "${ServicePrincipalId:-}" ] && [ -n "${ServicePrincipalClientSecret:-}" ]; then
