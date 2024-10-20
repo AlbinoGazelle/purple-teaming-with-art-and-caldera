@@ -94,17 +94,17 @@ log_message "$BLUE" "Downloading and installing Sysmon"
 run_command "wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb" "Failed to download Microsoft packages. Do we have internet?"
 run_command "dpkg -i packages-microsoft-prod.deb" "Failed to install Microsoft package"
 run_command "apt-get update" "Failed to update packages after adding Microsoft"
-run_command "apt-get install sysinternalsebpf" "Failed to install eBPF"
-run_command "apt-get install sysmonforlinux" "Failed to install SysmonForLinux"
+run_command "apt-get install -y sysinternalsebpf" "Failed to install eBPF"
+run_command "apt-get install -y sysmonforlinux" "Failed to install SysmonForLinux"
 
 # Move syslog configuration file
 log_message "$BLUE" "Configuring rsyslog to only log Process Creation events"
-run_command "cp ~/purple-teaming-with-art-and-caldera/setup/client01/01-sysmon.conf /etc/rsyslog.d/01-sysmon.conf" "Failed to move rsyslog configuration file"
+run_as_user "cp ~/purple-teaming-with-art-and-caldera/setup/client01/01-sysmon.conf /etc/rsyslog.d/01-sysmon.conf" "Failed to move rsyslog configuration file"
 run_command "systemctl restart rsyslog.service" "Failed to start syslog service"
 
 # Configure Sysmon
 log_message "$BLUE" "Configuring Sysmon"
-run_command "sysmon -i ~/purple-teaming-with-art-and-caldera/setup/client01/sysmon_config.xml" "Failed to install sysmon configuration file"
+run_as_user "sysmon -i ~/purple-teaming-with-art-and-caldera/setup/client01/sysmon_config.xml" "Failed to install sysmon configuration file"
 
 # Azure Arc onboarding (if Service Principal ID and Secret are provided)
 if [ -n "${ServicePrincipalId:-}" ] && [ -n "${ServicePrincipalClientSecret:-}" ]; then
