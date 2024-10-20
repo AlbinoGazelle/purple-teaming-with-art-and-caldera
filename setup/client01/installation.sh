@@ -77,10 +77,6 @@ log_message "$BLUE" "Installing Git..."
 run_command "apt-get update" "Failed to update package list"
 run_command "apt-get install -y git" "Failed to install Git"
 
-# Clone Workshop Folder as the original user
-log_message "$BLUE" "Cloning Workshop Folder..."
-run_as_user "git clone https://github.com/AlbinoGazelle/purple-teaming-with-art-and-caldera" "Failed to clone repository"
-
 # Install PowerShell prerequisites
 log_message "$BLUE" "Installing PowerShell prerequisites..."
 run_command "apt-get install -y wget apt-transport-https software-properties-common" "Failed to install PowerShell prerequisites"
