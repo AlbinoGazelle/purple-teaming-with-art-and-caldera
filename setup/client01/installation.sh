@@ -107,7 +107,7 @@ run_command "systemctl restart rsyslog.service" "Failed to start syslog service"
 # Configure Sysmon
 # TODO: Fix this.. same as syslog config file. How do we move this as a different user when we don't know their usernames?
 log_message "$BLUE" "Configuring Sysmon"
-run_as_user "sysmon -i ~/purple-teaming-with-art-and-caldera/setup/client01/sysmon_config.xml" "Failed to install sysmon configuration file"
+run_command "sysmon -i ~/purple-teaming-with-art-and-caldera/setup/client01/sysmon_config.xml" "Failed to install sysmon configuration file"
 
 # Azure Arc onboarding (if Service Principal ID and Secret are provided)
 if [ -n "${ServicePrincipalId:-}" ] && [ -n "${ServicePrincipalClientSecret:-}" ]; then
