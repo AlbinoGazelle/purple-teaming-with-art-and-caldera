@@ -72,11 +72,6 @@ if [[ $EUID -ne 0 ]]; then
     error_exit "This script must be run with sudo privileges.\nPlease run the script as: sudo $0 [options]"
 fi
 
-# Install Git
-log_message "$BLUE" "Installing Git..."
-run_command "apt-get update" "Failed to update package list"
-run_command "apt-get install -y git" "Failed to install Git"
-
 # Install PowerShell prerequisites
 log_message "$BLUE" "Installing PowerShell prerequisites..."
 run_command "apt-get install -y wget apt-transport-https software-properties-common" "Failed to install PowerShell prerequisites"
@@ -165,7 +160,7 @@ else
 fi
 
 log_message "$GREEN" "Script completed successfully"
-log_message "$YELLOW" "Dropping you into a PowerShell prompt. To exit PowerShell and return to bash, type 'exit'."
+log_message "$YELLOW" "Dropping you into a PowerShell prompt to install Invoke-AtomicRedTeam. To exit PowerShell and return to bash, type 'exit'."
 
 # Drop into PowerShell prompt as the original user
 sudo -u "$SUDO_USER" pwsh
