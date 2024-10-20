@@ -50,14 +50,19 @@ if [[ $EUID -ne 0 ]]; then
     error_exit "This script must be run with sudo privileges.\nPlease run the script as: sudo $0"
 fi
 
+# Update system
+log_message "$BLUE" "Updating Sources"
+run_command "apt-get update" "Failed to update system, do we have internet?"
+
 # Download prerequisites
 log_message "$BLUE" "Download & Installing Caldera Prerequisites"
 run_command "sudo apt install -y python3-pip" "Failed to install pip3, do we have internet?"
-run_command "sudo apt install -y nodejs" "Failed to install nodejs, do we have internet?"
 run_command "sudo apt install -y npm" "Failed to install npm, do we have internet?"
+run_command "npm install -g n" "Failed to install nodejs updater"
+run_command "n stable" "Failed to update to most recent nodejs version"
 
 # Download and install MITRE Caldera
 log_message "$BLUE" "Download & Installing MITRE Caldera"
 run_as_user "cd ~;git clone https://github.com/mitre/caldera.git --recursive" "Failed to download Caldera Git repository. Do we have internet?"
-run_as_user "pip3 install -r caldera/requirements.txt" "Failed to install Caldera requirements. Do we have pip3 installed?"
-run_as_user "cd caldera;python3 server.py --build" "Failed to start Caldera. Investigate any error messages produced by the Caldera server."
+run_as_user "cd ~/caldera;pip3 install -r requirements.txt" "Failed to install Caldera requirements. Do we have pip3 installed?"
+run_as_user "cd ~/caldera;python3 server.py --build" "Failed to start Caldera. Investigate any error messages produced by the Caldera server."
