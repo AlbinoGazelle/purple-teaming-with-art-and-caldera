@@ -76,21 +76,16 @@ fi
 log_message "$BLUE" "Installing PowerShell prerequisites..."
 run_command "apt-get install -y wget apt-transport-https software-properties-common" "Failed to install PowerShell prerequisites"
 
-# Download and install PowerShell
-log_message "$BLUE" "Downloading and installing PowerShell..."
-run_command "wget -q https://github.com/PowerShell/PowerShell/releases/download/v7.4.5/powershell_7.4.5-1.deb_amd64.deb" "Failed to download PowerShell package"
-run_command "dpkg -i powershell_7.4.5-1.deb_amd64.deb" "Failed to install PowerShell package"
-run_command "rm powershell_7.4.5-1.deb_amd64.deb" "Failed to remove PowerShell package file"
-run_command "apt-get update" "Failed to update package list after PowerShell installation"
-run_command "apt-get install -y powershell" "Failed to install PowerShell"
 
-# Download and install Sysmon
+
+# Download and install Sysmon & Powershell
 log_message "$BLUE" "Downloading and installing Sysmon"
 run_command "wget -q https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/packages-microsoft-prod.deb -O packages-microsoft-prod.deb" "Failed to download Microsoft packages. Do we have internet?"
 run_command "dpkg -i packages-microsoft-prod.deb" "Failed to install Microsoft package"
 run_command "apt-get update" "Failed to update packages after adding Microsoft"
 run_command "apt-get install -y sysinternalsebpf" "Failed to install eBPF"
 run_command "apt-get install -y sysmonforlinux" "Failed to install SysmonForLinux"
+run_command "apt-get install -y powershell" "Failed to install PowerShell"
 
 # Move syslog configuration file
 # TODO: Fix this... not sure why bash is saying the file doesn't exist. Use Claude.
