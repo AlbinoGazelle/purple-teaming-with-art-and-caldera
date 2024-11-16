@@ -53,7 +53,7 @@ fi
 # Update system
 log_message "$BLUE" "Updating Sources"
 run_command "apt-get update" "Failed to update system, do we have internet?"
-run_command "apt install python3-venv"
+run_command "apt install python3-venv" "Failed to install python3-venv, do we have internet?"
 
 # Download prerequisites
 log_message "$BLUE" "Download & Installing Caldera Prerequisites"
